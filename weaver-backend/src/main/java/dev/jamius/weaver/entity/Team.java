@@ -18,12 +18,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "account")
+@Table(name = "team")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account implements Serializable {
+public class Team implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -35,15 +35,14 @@ public class Account implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String username;
+    private String website;
 
-    @Column(nullable = false)
-    private String email;
+    @Column(name = "description", length = 1024)
+    private String description;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "picture_link", length = 1024)
+    private String pictureLink;
 
-    @OneToMany(mappedBy = "account")
-    private Set<AccountTeam> teams = new HashSet<>();
+    @OneToMany(mappedBy = "team")
+    private Set<AccountTeam> accounts = new HashSet<>();
 }

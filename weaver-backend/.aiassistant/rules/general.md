@@ -1,3 +1,7 @@
+---
+apply: always
+---
+
 This is a Java 25 Spring Boot 4 project for a kanban-inspired project management system.
 
 ## Rules for Development
