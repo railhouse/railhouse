@@ -12,6 +12,13 @@ import dev.jamius.weaver.service.AppSettingsService;
 import dev.jamius.weaver.service.InvitationService;
 import dev.jamius.weaver.service.TeamService;
 import dev.jamius.weaver.util.JwtUtil;
+import dev.jamius.weaver.dto.auth.InvitationTokenResponse;
+import dev.jamius.weaver.dto.auth.SignupResponse;
+import dev.jamius.weaver.dto.auth.TokenResponse;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +36,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 import static dev.jamius.weaver.config.filter.JwtRequestFilter.AUTHORIZATION_HEADER_PREFIX;
 import static dev.jamius.weaver.config.filter.JwtRequestFilter.BEARER_PREFIX;
 import static org.springframework.util.StringUtils.hasText;
@@ -39,6 +44,7 @@ import static org.springframework.util.StringUtils.hasText;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication")
 public class AuthController {
 
     private final AccountRepository accountRepository;
@@ -61,6 +67,7 @@ public class AuthController {
     private final TeamService teamService;
 
     @PostMapping("/signin")
+    @Operation(summary = "Sign in")
     public ResponseEntity<ApiResponse<?>> signin(@Valid @RequestBody SigninRequest signinRequest) {
         try {
             authenticationManager.authenticate(
@@ -79,11 +86,12 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse<>(
                 true,
                 "Signed in successfully",
-                Map.of("token", token)
+                new TokenResponse(token)
         ));
     }
 
     @PostMapping("/signup")
+    @Operation(summary = "Sign up")
     @Transactional
     public ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody SignupRequest signupRequest) {
         boolean hasInvitationCode = hasText(signupRequest.invitationCode());
@@ -137,27 +145,30 @@ public class AuthController {
                 .body(new ApiResponse<>(
                         true,
                         "Account created successfully",
-                        Map.of(
-                                "id", savedAccount.getId(),
-                                "name", savedAccount.getName(),
-                                "email", savedAccount.getEmail(),
-                                "username", savedAccount.getUsername()
+                        new SignupResponse(
+                                savedAccount.getId(),
+                                savedAccount.getName(),
+                                savedAccount.getEmail(),
+                                savedAccount.getUsername()
                         )
                 ));
     }
 
     @GetMapping("/invitation-token/{teamId}")
+    @Hidden
     public ResponseEntity<ApiResponse<?>> getInvitationToken(@PathVariable long teamId) {
         String invitationToken = invitationService.createInvitationCode(teamId);
 
         return ResponseEntity.ok(new ApiResponse<>(
                 true,
                 "Invitation token created successfully",
-                Map.of("invitationToken", invitationToken)
+                new InvitationTokenResponse(invitationToken)
         ));
     }
 
     @PostMapping("/signout")
+    @Operation(summary = "Sign out")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ApiResponse<?>> signout(HttpServletRequest request) {
         String authHeader = request.getHeader(AUTHORIZATION_HEADER_PREFIX);
         log.info("Received sign out request with auth header: {}", authHeader);

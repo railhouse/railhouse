@@ -5,6 +5,11 @@ import dev.jamius.weaver.dto.team.CreateTeamRequest;
 import dev.jamius.weaver.dto.team.EditTeamRequest;
 import dev.jamius.weaver.dto.team.TeamResponse;
 import dev.jamius.weaver.service.TeamService;
+import dev.jamius.weaver.dto.team.TeamListResponse;
+import dev.jamius.weaver.dto.team.TeamWrapperResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,16 +25,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/teams")
 @RequiredArgsConstructor
+@Tag(name = "Teams")
+@SecurityRequirement(name = "bearerAuth")
 public class TeamController {
 
     private final TeamService teamService;
 
     @PostMapping
+    @Operation(summary = "Create a team")
     public ResponseEntity<ApiResponse<?>> createTeam(
             Authentication authentication,
             @Valid @RequestBody CreateTeamRequest request) {
@@ -38,18 +45,20 @@ public class TeamController {
         TeamResponse team = teamService.createTeam(username, request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(true, "Team created successfully", Map.of("team", team)));
+                .body(new ApiResponse<>(true, "Team created successfully", new TeamWrapperResponse(team)));
     }
 
     @GetMapping
+    @Operation(summary = "Get all teams for the user")
     public ResponseEntity<ApiResponse<?>> getTeams(Authentication authentication) {
         String username = authentication.getName();
         List<TeamResponse> teams = teamService.getTeams(username);
 
-        return ResponseEntity.ok(new ApiResponse<>(true, "Teams retrieved successfully", Map.of("teams", teams)));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Teams retrieved successfully", new TeamListResponse(teams)));
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Edit a team")
     public ResponseEntity<ApiResponse<?>> editTeam(
             Authentication authentication,
             @PathVariable Long id,
@@ -58,10 +67,11 @@ public class TeamController {
         String username = authentication.getName();
         TeamResponse team = teamService.editTeam(username, id, request);
 
-        return ResponseEntity.ok(new ApiResponse<>(true, "Team updated successfully", Map.of("team", team)));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Team updated successfully", new TeamWrapperResponse(team)));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a team")
     public ResponseEntity<ApiResponse<?>> deleteTeam(
             Authentication authentication,
             @PathVariable Long id) {
@@ -73,6 +83,7 @@ public class TeamController {
     }
 
     @PostMapping("/{id}/leave")
+    @Operation(summary = "Leave a team")
     public ResponseEntity<ApiResponse<?>> leaveTeam(
             Authentication authentication,
             @PathVariable Long id) {
@@ -84,6 +95,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/{id}/members/{usernameToRemove}")
+    @Operation(summary = "Remove a member from a team")
     public ResponseEntity<ApiResponse<?>> removeAccountFromTeam(
             Authentication authentication,
             @PathVariable Long id,

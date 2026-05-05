@@ -5,6 +5,11 @@ import dev.jamius.weaver.dto.board.BoardResponse;
 import dev.jamius.weaver.dto.board.CreateBoardRequest;
 import dev.jamius.weaver.dto.board.EditBoardRequest;
 import dev.jamius.weaver.service.BoardService;
+import dev.jamius.weaver.dto.board.BoardListResponse;
+import dev.jamius.weaver.dto.board.BoardWrapperResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,16 +25,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Tag(name = "Boards")
+@SecurityRequirement(name = "bearerAuth")
 public class BoardController {
 
     private final BoardService boardService;
 
     @PostMapping("/teams/{teamId}/boards")
+    @Operation(summary = "Create a board")
     public ResponseEntity<ApiResponse<?>> createBoard(
             Authentication authentication,
             @PathVariable Long teamId,
@@ -39,10 +46,11 @@ public class BoardController {
         BoardResponse board = boardService.createBoard(username, teamId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(true, "Board created successfully", Map.of("board", board)));
+                .body(new ApiResponse<>(true, "Board created successfully", new BoardWrapperResponse(board)));
     }
 
     @GetMapping("/teams/{teamId}/boards")
+    @Operation(summary = "Get all boards for a team")
     public ResponseEntity<ApiResponse<?>> getBoards(
             Authentication authentication,
             @PathVariable Long teamId) {
@@ -50,10 +58,11 @@ public class BoardController {
         String username = authentication.getName();
         List<BoardResponse> boards = boardService.getBoards(username, teamId);
 
-        return ResponseEntity.ok(new ApiResponse<>(true, "Boards retrieved successfully", Map.of("boards", boards)));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Boards retrieved successfully", new BoardListResponse(boards)));
     }
 
     @PutMapping("/boards/{id}")
+    @Operation(summary = "Edit a board")
     public ResponseEntity<ApiResponse<?>> editBoard(
             Authentication authentication,
             @PathVariable Long id,
@@ -62,10 +71,11 @@ public class BoardController {
         String username = authentication.getName();
         BoardResponse board = boardService.editBoard(username, id, request);
 
-        return ResponseEntity.ok(new ApiResponse<>(true, "Board updated successfully", Map.of("board", board)));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Board updated successfully", new BoardWrapperResponse(board)));
     }
 
     @DeleteMapping("/boards/{id}")
+    @Operation(summary = "Delete a board")
     public ResponseEntity<ApiResponse<?>> deleteBoard(
             Authentication authentication,
             @PathVariable Long id) {
