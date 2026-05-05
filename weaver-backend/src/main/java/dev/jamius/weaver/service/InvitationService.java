@@ -14,7 +14,7 @@ public class InvitationService {
 
     private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();
-    private final Cache<String, Boolean> CACHE;
+    private final Cache<String, Long> CACHE;
 
     public InvitationService() {
         CACHE = Caffeine.newBuilder()
@@ -23,7 +23,7 @@ public class InvitationService {
                 .build();
     }
 
-    public String getInvitationCode() {
+    public String createInvitationCode(long teamId) {
         StringBuilder code = new StringBuilder(6);
         for (int i = 0; i < 8; i++) {
             code.append(ALPHANUMERIC.charAt(RANDOM.nextInt(ALPHANUMERIC.length())));
@@ -33,20 +33,29 @@ public class InvitationService {
 
         log.info("Generated invitation code: {}", invitationCode);
 
-        CACHE.put(invitationCode, true);
+        CACHE.put(invitationCode, teamId);
         return invitationCode;
+    }
+
+    public long getTeamIdFromInvitationCode(String invitationCode) {
+        Long teamId = CACHE.getIfPresent(invitationCode);
+
+        if (teamId == null) {
+            log.error("Invitation code not found: {}", invitationCode);
+            return -1;
+        }
+
+        return teamId;
     }
 
     public boolean isInvitationCodeValid(String invitationCode) {
         log.info("Validating invitation code: {}", invitationCode);
 
-        boolean isValidCode = CACHE.getIfPresent(invitationCode) != null;
-        invalidateInvitationCode(invitationCode);
-
-        return isValidCode;
+        var invitationTeamId = CACHE.getIfPresent(invitationCode);
+        return invitationTeamId != null;
     }
 
-    private void invalidateInvitationCode(String invitationCode) {
+    public void invalidateInvitationCode(String invitationCode) {
         CACHE.invalidate(invitationCode);
     }
 }

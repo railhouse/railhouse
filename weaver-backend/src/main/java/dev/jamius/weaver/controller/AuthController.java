@@ -5,10 +5,12 @@ import dev.jamius.weaver.dto.auth.Signin;
 import dev.jamius.weaver.dto.auth.Signup;
 import dev.jamius.weaver.entity.Account;
 import dev.jamius.weaver.entity.BlacklistedAuthToken;
+import dev.jamius.weaver.entity.TeamRole;
 import dev.jamius.weaver.repository.AccountRepository;
 import dev.jamius.weaver.repository.BlacklistedAuthTokenRepository;
 import dev.jamius.weaver.service.AppSettingsService;
 import dev.jamius.weaver.service.InvitationService;
+import dev.jamius.weaver.service.TeamService;
 import dev.jamius.weaver.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -24,11 +26,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -59,6 +58,7 @@ public class AuthController {
     private final BlacklistedAuthTokenRepository blacklistedAuthTokenRepository;
 
     private final CacheManager cacheManager;
+    private final TeamService teamService;
 
     @PostMapping("/signin")
     public ResponseEntity<ApiResponse<?>> signin(@Valid @RequestBody Signin signin) {
@@ -84,6 +84,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @Transactional
     public ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody Signup signup) {
         boolean hasInvitationCode = hasText(signup.invitationCode());
         boolean firstUser = accountRepository.isFirstUser();
@@ -126,6 +127,12 @@ public class AuthController {
 
         Account savedAccount = accountRepository.save(account);
 
+        long invitedTeamId =  invitationService.getTeamIdFromInvitationCode(signup.invitationCode());
+
+        if (invitedTeamId != -1) {
+            teamService.addAccountToTeam(account.getUsername(), invitedTeamId, TeamRole.MEMBER);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResponse<>(
                         true,
@@ -139,9 +146,9 @@ public class AuthController {
                 ));
     }
 
-    @GetMapping("/invitation-token")
-    public ResponseEntity<ApiResponse<?>> getInvitationToken() {
-        String invitationToken = invitationService.getInvitationCode();
+    @GetMapping("/invitation-token/{teamId}")
+    public ResponseEntity<ApiResponse<?>> getInvitationToken(@PathVariable long teamId) {
+        String invitationToken = invitationService.createInvitationCode(teamId);
 
         return ResponseEntity.ok(new ApiResponse<>(
                 true,

@@ -79,4 +79,25 @@ public class TeamService {
 
         return TeamResponse.fromEntity(team);
     }
+
+    @Transactional
+    public void addAccountToTeam(String username, Long teamId, TeamRole role) {
+        Account targetAccount = accountRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Target user not found"));
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
+
+        if (accountTeamRepository.findByAccountUsernameAndTeamId(username, teamId).isPresent()) {
+            return; // Already in team
+        }
+
+        AccountTeam newAccountTeam = AccountTeam.builder()
+                .account(targetAccount)
+                .team(team)
+                .role(role)
+                .build();
+        
+        accountTeamRepository.save(newAccountTeam);
+    }
 }
