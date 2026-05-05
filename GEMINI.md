@@ -8,5 +8,4 @@ Check `AGENTS.md` file withtin each applications dir (i.e., `weaver-frontend/AGE
 
 Keep your changes as small as possible, and always ask before making a big change.
 
-The Postman collection name is `Weaver`. Avoid any Postman folder with the name `Internal` in it. Add example response in all the requests.
-When I talk about adding to Postman collection, or anything Postman related, you should always use the Postman MCP Server.
+When you create/modify any endpoint, update the relavant yml files in the `api-collection\Weaver` OpenCollection directory.

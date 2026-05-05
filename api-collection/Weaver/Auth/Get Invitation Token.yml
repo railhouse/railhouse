@@ -1,0 +1,56 @@
+info:
+  name: Get Invitation Token
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/auth/invitation-token/1"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/auth/invitation-token"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: X-Content-Type-Options
+          value: nosniff
+        - name: X-XSS-Protection
+          value: "0"
+        - name: Cache-Control
+          value: no-cache, no-store, max-age=0, must-revalidate
+        - name: Pragma
+          value: no-cache
+        - name: Expires
+          value: "0"
+        - name: X-Frame-Options
+          value: DENY
+        - name: Content-Type
+          value: application/json
+        - name: Transfer-Encoding
+          value: chunked
+        - name: Date
+          value: Tue, 05 May 2026 10:13:16 GMT
+        - name: Keep-Alive
+          value: timeout=60
+        - name: Connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Invitation token created successfully",
+              "data": {
+                  "invitationToken": "T9MNCLYZ"
+              }
+          }

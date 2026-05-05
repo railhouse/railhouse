@@ -1,0 +1,35 @@
+info:
+  name: Delete Board
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: "{{base_url}}/api/boards/1"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/boards/1"
+      method: DELETE
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Board deleted successfully",
+              "data": null
+          }

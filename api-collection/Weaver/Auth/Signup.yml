@@ -1,0 +1,89 @@
+info:
+  name: Signup
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/auth/signup"
+  body:
+    type: json
+    data: "{\r
+
+      \    \"name\": \"Mostafa Galib\",\r
+
+      \    \"email\": \"galib@gmail.com\",\r
+
+      \    \"username\": \"galib\",\r
+
+      \    \"password\": \"test123\",\r
+
+      \    \"invitationCode\": \"9AZGTV1Z\"\r
+
+      }"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/auth/signup"
+      method: POST
+      body:
+        type: json
+        data: "{\r
+
+          \    \"name\": \"Jamius Siam\",\r
+
+          \    \"email\": \"ja@sii.am\",\r
+
+          \    \"username\": \"jamius191\",\r
+
+          \    \"password\": \"test123\",\r
+
+          \    \"invitationCode\": \"T9MNCLYZ\"\r
+
+          }"
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: X-Content-Type-Options
+          value: nosniff
+        - name: X-XSS-Protection
+          value: "0"
+        - name: Cache-Control
+          value: no-cache, no-store, max-age=0, must-revalidate
+        - name: Pragma
+          value: no-cache
+        - name: Expires
+          value: "0"
+        - name: X-Frame-Options
+          value: DENY
+        - name: Content-Type
+          value: application/json
+        - name: Transfer-Encoding
+          value: chunked
+        - name: Date
+          value: Tue, 05 May 2026 10:14:43 GMT
+        - name: Keep-Alive
+          value: timeout=60
+        - name: Connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Account created successfully",
+              "data": {
+                  "email": "ja@sii.am",
+                  "username": "jamius191",
+                  "id": 2,
+                  "name": "Jamius Siam"
+              }
+          }

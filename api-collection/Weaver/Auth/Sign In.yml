@@ -1,0 +1,82 @@
+info:
+  name: Sign In
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{base_url}}/api/auth/signin"
+  body:
+    type: json
+    data: "{\r
+
+      \    \"username\": \"jamius19\",\r
+
+      \    \"password\": \"test123\"\r
+
+      }"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        var jsonData = res.getBody();
+
+        bru.setEnvVar("token", jsonData.data.token);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/auth/signin"
+      method: POST
+      body:
+        type: json
+        data: "{\r
+
+          \    \"username\": \"jamius19\",\r
+
+          \    \"password\": \"test123\"\r
+
+          }"
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: X-Content-Type-Options
+          value: nosniff
+        - name: X-XSS-Protection
+          value: "0"
+        - name: Cache-Control
+          value: no-cache, no-store, max-age=0, must-revalidate
+        - name: Pragma
+          value: no-cache
+        - name: Expires
+          value: "0"
+        - name: X-Frame-Options
+          value: DENY
+        - name: Content-Type
+          value: application/json
+        - name: Transfer-Encoding
+          value: chunked
+        - name: Date
+          value: Tue, 05 May 2026 10:13:32 GMT
+        - name: Keep-Alive
+          value: timeout=60
+        - name: Connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Signed in successfully",
+              "data": {
+                  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW1pdXMxOSIsImlhdCI6MTc3Nzk3NjAxMiwiZXhwIjoxODY0Mzc2MDEyfQ.FXyDzhnok50lfAmSH2CwLmuOUaRs3iCadBeKf8mTVYkFp1EBsAlXn_v7j6GR5qtbT-kYxK48z08N48EjbCmZEg"
+              }
+          }

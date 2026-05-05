@@ -1,0 +1,55 @@
+info:
+  name: Create Team
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/teams"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Weaver Art Team",
+          "website": "https://weaver.dev",
+          "description": "The main development team for Weaver",
+          "pictureLink": "https://example.com/weaver.png"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Created
+    request:
+      url: ""
+      method: POST
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Team created successfully",
+              "data": {
+                  "team": {
+                      "id": 2,
+                      "name": "Weaver Art Team",
+                      "website": "https://weaver.dev",
+                      "description": "The main development team for Weaver",
+                      "pictureLink": "https://example.com/weaver.png"
+                  }
+              }
+          }
