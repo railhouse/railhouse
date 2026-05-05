@@ -7,3 +7,5 @@ Two main applications of this tool,
 Check `AGENTS.md` file withtin each applications dir (i.e., `weaver-frontend/AGENTS.md`, `weaver-backend/AGENTS.md`) for more information about the project structure and development rules.
 
 Keep your changes as small as possible, and always ask before making a big change.
+
+The Postman collection name is `Weaver`. Avoid any postman folder with the name `Internal` in it.
