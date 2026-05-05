@@ -29,7 +29,7 @@ import static org.springframework.util.StringUtils.hasText;
 public class AuthController {
 
     private final AccountRepository accountRepository;
-    
+
     private final InvitationService invitationService;
 
     private final AppSettingsService appSettingsService;
@@ -50,8 +50,9 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody Signup signup) {
         boolean hasInvitationCode = hasText(signup.invitationCode());
+        boolean firstUser = accountRepository.isFirstUser();
 
-        if (!appSettingsService.isSignupEnabled() && !hasInvitationCode) {
+        if (!appSettingsService.isSignupEnabled() && !hasInvitationCode && !firstUser) {
             log.info("Signup is disabled and no invitation code provided");
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(new ApiResponse<>(false, "Signup is disabled without invitation code", null));

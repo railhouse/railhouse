@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Setting implements Serializable {
+public class Setting extends Auditable implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

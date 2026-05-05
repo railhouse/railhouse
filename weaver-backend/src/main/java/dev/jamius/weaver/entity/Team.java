@@ -23,7 +23,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Team implements Serializable {
+public class Team extends Auditable implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -45,4 +45,7 @@ public class Team implements Serializable {
 
     @OneToMany(mappedBy = "team")
     private Set<AccountTeam> accounts = new HashSet<>();
+
+    @OneToMany(mappedBy = "team")
+    private Set<Board> boards = new HashSet<>();
 }

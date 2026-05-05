@@ -4,5 +4,8 @@ CREATE TABLE account
     name     varchar(255) NOT NULL,
     username varchar(255) NOT NULL,
     email    varchar(255) NOT NULL,
-    password varchar(255) NOT NULL
+    password varchar(255) NOT NULL,
+    version BIGINT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

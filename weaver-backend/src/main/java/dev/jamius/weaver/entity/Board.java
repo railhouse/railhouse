@@ -5,7 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,17 +14,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "account")
+@Table(name = "board")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account extends Auditable implements Serializable {
+public class Board extends Auditable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,17 +31,12 @@ public class Account extends Auditable implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String title;
 
-    @Column(nullable = false)
-    private String username;
+    @Column(length = 2048)
+    private String content;
 
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
-
-    @OneToMany(mappedBy = "account")
-    private Set<AccountTeam> teams = new HashSet<>();
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
 }
