@@ -8,4 +8,4 @@ Check `AGENTS.md` file withtin each applications dir (i.e., `weaver-frontend/AGE
 
 Keep your changes as small as possible, and always ask before making a big change.
 
-When you create/modify any endpoint, update the relavant yml files in the `api-collection\Weaver` OpenCollection directory.
+When you create/modify any endpoint, update the relavant yml file(s) in the `api-collection\Weaver` OpenCollection directory.
