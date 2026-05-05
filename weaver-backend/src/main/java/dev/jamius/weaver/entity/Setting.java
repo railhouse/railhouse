@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "settings")
@@ -20,7 +19,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Setting extends Auditable implements Serializable {
+public class Setting extends Auditable {
 
     @Serial
     private static final long serialVersionUID = 1L;

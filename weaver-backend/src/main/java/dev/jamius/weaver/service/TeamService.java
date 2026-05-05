@@ -34,17 +34,19 @@ public class TeamService {
         Account account = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        Team team = new Team();
-        team.setName(request.name());
-        team.setWebsite(request.website());
-        team.setDescription(request.description());
-        team.setPictureLink(request.pictureLink());
+        Team team = Team.builder()
+                .name(request.name())
+                .website(request.website())
+                .description(request.description())
+                .pictureLink(request.pictureLink())
+                .build();
         team = teamRepository.save(team);
 
-        AccountTeam accountTeam = new AccountTeam();
-        accountTeam.setAccount(account);
-        accountTeam.setTeam(team);
-        accountTeam.setRole(TeamRole.ADMIN);
+        AccountTeam accountTeam = AccountTeam.builder()
+                .account(account)
+                .team(team)
+                .role(TeamRole.ADMIN)
+                .build();
         accountTeamRepository.save(accountTeam);
 
         return TeamResponse.fromEntity(team);

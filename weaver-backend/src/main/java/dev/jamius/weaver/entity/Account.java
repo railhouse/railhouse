@@ -10,7 +10,6 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +20,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account extends Auditable implements Serializable {
+public class Account extends Auditable {
 
     @Serial
     private static final long serialVersionUID = 1L;
