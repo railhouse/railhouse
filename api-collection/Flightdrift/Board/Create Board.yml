@@ -1,0 +1,80 @@
+info:
+  name: Create Board
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/teams/1/boards"
+  body:
+    type: json
+    data: "{\r
+
+      \    \"title\": \"Flightdrift Dev Board\",\r
+
+      \    \"description\": \"Board for tracking new project\"\r
+
+      }"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/teams/1/boards"
+      method: POST
+      body:
+        type: json
+        data: "{\r
+
+          \    \"title\": \"Flightdrift Dev Board\",\r
+
+          \    \"description\": \"Board for tracking new project\"\r
+
+          }"
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: X-Content-Type-Options
+          value: nosniff
+        - name: X-XSS-Protection
+          value: "0"
+        - name: Cache-Control
+          value: no-cache, no-store, max-age=0, must-revalidate
+        - name: Pragma
+          value: no-cache
+        - name: Expires
+          value: "0"
+        - name: X-Frame-Options
+          value: DENY
+        - name: Content-Type
+          value: application/json
+        - name: Transfer-Encoding
+          value: chunked
+        - name: Date
+          value: Tue, 05 May 2026 16:13:20 GMT
+        - name: Keep-Alive
+          value: timeout=60
+        - name: Connection
+          value: keep-alive
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Board created successfully",
+              "data": {
+                  "board": {
+                      "id": 1,
+                      "title": "Flightdrift Dev Board",
+                      "description": "Board for tracking new project",
+                      "teamId": 1
+                  }
+              }
+          }

@@ -1,0 +1,52 @@
+info:
+  name: Get Teams
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/teams"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: ""
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Teams retrieved successfully",
+              "data": {
+                  "teams": [
+                      {
+                          "id": 1,
+                          "name": "Flightdrift Dev Team",
+                          "website": "https://flightdrift.dev",
+                          "description": "The main development team for Flightdrift (Updated)",
+                          "pictureLink": "https://example.com/flightdrift.png"
+                      },
+                      {
+                          "id": 2,
+                          "name": "Flightdrift Art Team",
+                          "website": "https://flightdrift.dev",
+                          "description": "The main development team for Flightdrift",
+                          "pictureLink": "https://example.com/flightdrift.png"
+                      }
+                  ]
+              }
+          }

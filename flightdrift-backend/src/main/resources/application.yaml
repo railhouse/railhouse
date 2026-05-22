@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: flightdrift
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flightdrift
+    username: flightdrift
+    password: flightdrift
+  main:
+    banner-mode: off
+
+flightdrift:
+  app:
+    signup-enabled: false
+  jwt:
+    secret: flightdrift+super+duper+secret+key+goes+here+please+change+it+before+you+deploy+it+in+production
+    expiration: 86400000
