@@ -20,7 +20,7 @@ public class JwtUtil {
     private String secret;
 
     @Value("${flightdrift.jwt.expiration}")
-    private Long expiration;
+    private Long expirationInMs;
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -32,7 +32,7 @@ public class JwtUtil {
                 .claims(claims)
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiration * 1000))
+                .expiration(new Date(System.currentTimeMillis() + expirationInMs * 1000))
                 .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret)))
                 .compact();
     }
