@@ -13,7 +13,8 @@ spring:
 
 flightdrift:
   app:
-    signup-enabled: false
+    flags:
+      signup-enabled: true
   jwt:
     secret: flightdrift+super+duper+secret+key+goes+here+please+change+it+before+you+deploy+it+in+production
     expiration: 86400000

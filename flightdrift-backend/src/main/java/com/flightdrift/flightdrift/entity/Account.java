@@ -2,9 +2,6 @@ package com.flightdrift.flightdrift.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -13,6 +10,10 @@ import java.io.Serial;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+ * Author: Jamius Siam
+ * Since: 04/05/2026
+ */
 @Entity
 @Table(name = "account")
 @Getter
@@ -24,10 +25,6 @@ public class Account extends Auditable {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -41,6 +38,7 @@ public class Account extends Auditable {
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     @OneToMany(mappedBy = "account")
-    private Set<AccountTeam> teams = new HashSet<>();
+    private Set<AccountOrganizationMapping> organizations = new HashSet<>();
 }

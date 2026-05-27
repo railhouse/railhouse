@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/*
+ * Author: Jamius Siam
+ * Since: 04/05/2026
+ */
 @Service
 @RequiredArgsConstructor
 public class AccountDetailService implements UserDetailsService {
@@ -21,7 +25,9 @@ public class AccountDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Account account = accountRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return new User(
                 account.getUsername(),

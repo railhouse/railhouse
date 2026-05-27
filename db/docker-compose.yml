@@ -1,7 +1,7 @@
 services:
   postgres:
-    image: postgres:17.9
-    container_name: flightdrift_db
+    image: postgres:18
+    container_name: flightdrift-db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
@@ -10,6 +10,6 @@ services:
       - "5432:5432"
     volumes:
       - ./migration:/docker-entrypoint-initdb.d
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql
       - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
       - ./postgresql.conf:/etc/postgresql/postgresql.conf

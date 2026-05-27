@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/*
+ * Author: Jamius Siam
+ * Since: 04/05/2026
+ */
 @Component
 public class JwtUtil {
 

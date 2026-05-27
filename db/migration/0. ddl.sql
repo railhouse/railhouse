@@ -1,3 +1,7 @@
+--
+-- Author: Jamius Siam
+-- Since: 22/05/2026
+--
 CREATE USER flightdrift WITH PASSWORD 'flightdrift';
 
 ALTER DATABASE flightdrift OWNER TO flightdrift;

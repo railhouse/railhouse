@@ -5,12 +5,12 @@ import com.flightdrift.flightdrift.dto.auth.SigninRequest;
 import com.flightdrift.flightdrift.dto.auth.SignupRequest;
 import com.flightdrift.flightdrift.entity.Account;
 import com.flightdrift.flightdrift.entity.BlacklistedAuthToken;
-import com.flightdrift.flightdrift.entity.TeamRole;
+import com.flightdrift.flightdrift.entity.OrganizationRole;
 import com.flightdrift.flightdrift.repository.AccountRepository;
 import com.flightdrift.flightdrift.repository.BlacklistedAuthTokenRepository;
 import com.flightdrift.flightdrift.service.AppSettingsService;
 import com.flightdrift.flightdrift.service.InvitationService;
-import com.flightdrift.flightdrift.service.TeamService;
+import com.flightdrift.flightdrift.service.OrganizationService;
 import com.flightdrift.flightdrift.util.JwtUtil;
 import com.flightdrift.flightdrift.dto.auth.InvitationTokenResponse;
 import com.flightdrift.flightdrift.dto.auth.SignupResponse;
@@ -36,10 +36,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static com.flightdrift.flightdrift.config.filter.JwtRequestFilter.AUTHORIZATION_HEADER_PREFIX;
 import static com.flightdrift.flightdrift.config.filter.JwtRequestFilter.BEARER_PREFIX;
+import static com.flightdrift.flightdrift.entity.OrganizationRole.*;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.util.StringUtils.hasText;
 
+/*
+ * Author: Jamius Siam
+ * Since: 05/05/2026
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
@@ -64,7 +72,8 @@ public class AuthController {
     private final BlacklistedAuthTokenRepository blacklistedAuthTokenRepository;
 
     private final CacheManager cacheManager;
-    private final TeamService teamService;
+
+    private final OrganizationService organizationService;
 
     @PostMapping("/signin")
     @Operation(summary = "Sign in")
@@ -135,13 +144,12 @@ public class AuthController {
 
         Account savedAccount = accountRepository.save(account);
 
-        long invitedTeamId = invitationService.getTeamIdFromInvitationCode(signupRequest.invitationCode());
-
-        if (invitedTeamId != -1) {
-            teamService.addAccountToTeam(account.getUsername(), invitedTeamId, TeamRole.MEMBER);
+        if (hasInvitationCode) {
+            invitationService.getOrganizationIdFromInvitationCode(signupRequest.invitationCode())
+                    .ifPresent(organizationId -> organizationService.addAccountToOrganization(account.getUsername(), organizationId, REGULAR_USER));
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(CREATED)
                 .body(new ApiResponse<>(
                         true,
                         "Account created successfully",
@@ -154,10 +162,10 @@ public class AuthController {
                 ));
     }
 
-    @GetMapping("/invitation-token/{teamId}")
+    @GetMapping("/invitation-token/{organizationId}")
     @Hidden
-    public ResponseEntity<ApiResponse<?>> getInvitationToken(@PathVariable long teamId) {
-        String invitationToken = invitationService.createInvitationCode(teamId);
+    public ResponseEntity<ApiResponse<?>> getInvitationToken(@PathVariable UUID organizationId) {
+        String invitationToken = invitationService.createInvitationCode(organizationId);
 
         return ResponseEntity.ok(new ApiResponse<>(
                 true,
