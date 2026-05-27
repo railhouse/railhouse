@@ -1,0 +1,69 @@
+info:
+  name: Create Organization
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/organizations"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Flightdrift",
+          "url": "https://flightdrift.com",
+          "iconUrl": "https://example.com/flightdrift.png"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        var jsonData = res.getBody();
+
+        bru.setEnvVar("organization_id", jsonData.data.organization.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Created
+    request:
+      url: "{{base_url}}/api/organizations"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "name": "Flightdrift",
+              "url": "https://flightdrift.com",
+              "iconUrl": "https://example.com/flightdrift.png"
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Organization created successfully",
+            "data": {
+              "organization": {
+                "id": "019e6a7d-293c-716f-9d2f-c32f2bccfc17",
+                "name": "Flightdrift",
+                "url": "https://flightdrift.com",
+                "iconUrl": "https://example.com/flightdrift.png"
+              }
+            }
+          }

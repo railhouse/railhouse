@@ -8,13 +8,11 @@ http:
   url: "{{base_url}}/api/auth/signin"
   body:
     type: json
-    data: "{\r
-
-      \    \"username\": \"jamius19\",\r
-
-      \    \"password\": \"test123\"\r
-
-      }"
+    data: |-
+      {
+          "username": "jamius19",
+          "password": "123"
+      }
 
 runtime:
   scripts:
@@ -22,7 +20,7 @@ runtime:
       code: |-
         var jsonData = res.getBody();
 
-        bru.setEnvVar("token", jsonData.data.token);
+        bru.set("auth_token", jsonData.data.token);
 
 settings:
   encodeUrl: true
@@ -37,13 +35,11 @@ examples:
       method: POST
       body:
         type: json
-        data: "{\r
-
-          \    \"username\": \"jamius19\",\r
-
-          \    \"password\": \"test123\"\r
-
-          }"
+        data: |-
+          {
+              "username": "jamius19",
+              "password": "123"
+          }
     response:
       status: 200
       statusText: OK
@@ -74,9 +70,9 @@ examples:
         type: json
         data: |-
           {
-              "success": true,
-              "message": "Signed in successfully",
-              "data": {
-                  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW1pdXMxOSIsImlhdCI6MTc3Nzk3NjAxMiwiZXhwIjoxODY0Mzc2MDEyfQ.FXyDzhnok50lfAmSH2CwLmuOUaRs3iCadBeKf8mTVYkFp1EBsAlXn_v7j6GR5qtbT-kYxK48z08N48EjbCmZEg"
-              }
+            "success": true,
+            "message": "Signed in successfully",
+            "data": {
+              "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW1pdXMxOSIsImlhdCI6MTc3OTkwMjgxMiwiZXhwIjoxODY2MzAyODEyfQ.Y0Rca6ESQvV16n_VJxP4rzxVERvRaSzonuOFTfyD0Ytz1H4cMEnQ-crukQ0i0l_Bwf72m_aCUfqSamdABNB6Vg"
+            }
           }

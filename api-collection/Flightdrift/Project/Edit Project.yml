@@ -1,0 +1,59 @@
+info:
+  name: Edit Project
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{base_url}}/api/projects/{{project_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Flightdrift HQ",
+          "iconUrl": "https://example.com/project-updated.png"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/projects/{{project_id}}"
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+              "name": "Flightdrift HQ",
+              "iconUrl": "https://example.com/project-updated.png"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Project updated successfully",
+            "data": {
+              "project": {
+                "id": "019e6a80-e269-7ddc-9e6b-d25eccfd192d",
+                "name": "Flightdrift HQ",
+                "iconUrl": "https://example.com/project-updated.png",
+                "organizationId": "019e6a80-6593-7416-8876-dec6b99510ab"
+              }
+            }
+          }

@@ -1,0 +1,44 @@
+info:
+  name: Get Organizations
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/organizations"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/organizations"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Organizations retrieved successfully",
+            "data": {
+              "organizations": [
+                {
+                  "id": "019e6a7d-293c-716f-9d2f-c32f2bccfc17",
+                  "name": "Flightdrift",
+                  "url": "https://flightdrift.com",
+                  "iconUrl": "https://example.com/flightdrift.png"
+                }
+              ]
+            }
+          }

@@ -17,10 +17,18 @@ config:
 request:
   auth:
     type: bearer
-    token: "{{token}}"
+    token: "{{auth_token}}"
   variables:
     - name: base_url
       value: http://localhost:8080
+    - name: organization_id
+      value: 019e6a80-6593-7416-8876-dec6b99510ab
+    - name: project_id
+      value: 019e6a80-e269-7ddc-9e6b-d25eccfd192d
+    - name: item_id
+      value: 019b7a23-58a7-72f0-bdea-b39d8ab32191
+    - name: auth_token
+      value: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqYW1pdXMxOSIsImlhdCI6MTc3OTkwMjgxMiwiZXhwIjoxODY2MzAyODEyfQ.Y0Rca6ESQvV16n_VJxP4rzxVERvRaSzonuOFTfyD0Ytz1H4cMEnQ-crukQ0i0l_Bwf72m_aCUfqSamdABNB6Vg
 bundled: false
 extensions:
   bruno:

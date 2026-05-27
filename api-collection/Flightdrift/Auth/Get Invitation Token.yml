@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{base_url}}/api/auth/invitation-token/1"
+  url: "{{base_url}}/api/auth/invitation-token/{{organization_id}}"
 
 settings:
   encodeUrl: true
@@ -16,7 +16,7 @@ settings:
 examples:
   - name: OK
     request:
-      url: "{{base_url}}/api/auth/invitation-token"
+      url: "{{base_url}}/api/auth/invitation-token/{{organization_id}}"
       method: GET
     response:
       status: 200

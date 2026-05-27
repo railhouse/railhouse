@@ -1,0 +1,67 @@
+info:
+  name: Create Project
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/organizations/{{organization_id}}/projects"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Flightdrift",
+          "iconUrl": "https://example.com/project.png"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        var jsonData = res.getBody();
+
+        bru.setEnvVar("project_id", jsonData.data.project.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Created
+    request:
+      url: "{{base_url}}/api/organizations/{{organization_id}}/projects"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "name": "Flightdrift",
+              "iconUrl": "https://example.com/project.png"
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Project created successfully",
+            "data": {
+              "project": {
+                "id": "019e6a80-e269-7ddc-9e6b-d25eccfd192d",
+                "name": "Flightdrift",
+                "iconUrl": "https://example.com/project.png",
+                "organizationId": "019e6a80-6593-7416-8876-dec6b99510ab"
+              }
+            }
+          }

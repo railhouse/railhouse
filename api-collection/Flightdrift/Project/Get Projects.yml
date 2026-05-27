@@ -1,0 +1,44 @@
+info:
+  name: Get Projects
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/organizations/{{organization_id}}/projects"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/organizations/{{organization_id}}/projects"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Projects retrieved successfully",
+            "data": {
+              "projects": [
+                {
+                  "id": "019e6a80-e269-7ddc-9e6b-d25eccfd192d",
+                  "name": "Flightdrift",
+                  "iconUrl": "https://example.com/project.png",
+                  "organizationId": "019e6a80-6593-7416-8876-dec6b99510ab"
+                }
+              ]
+            }
+          }

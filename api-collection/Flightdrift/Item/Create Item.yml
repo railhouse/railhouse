@@ -1,0 +1,73 @@
+info:
+  name: Create Item
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/projects/{{project_id}}/items"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Bootstrap the UI",
+          "description": "The UI for Flightdrift needs to be created. We'll be using React w/ Tanstack Router.",
+          "startDate": "2027-01-01",
+          "endDate": "2027-01-02"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        var jsonData = res.getBody();
+
+        bru.setEnvVar("item_id", jsonData.data.item.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: Created
+    request:
+      url: "{{base_url}}/api/projects/{{project_id}}/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "name": "Bootstrap the UI",
+              "description": "The UI for Flightdrift needs to be created. We'll be using React w/ Tanstack Router.",
+              "startDate": "2027-01-01",
+              "endDate": "2027-01-02"
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Item created successfully",
+            "data": {
+              "item": {
+                "id": "019e6a86-411d-7813-b343-9812c360e03c",
+                "name": "Bootstrap the UI",
+                "description": "The UI for Flightdrift needs to be created. We'll be using React w/ Tanstack Router.",
+                "startDate": "2027-01-01",
+                "endDate": "2027-01-02",
+                "projectId": "019e6a80-e269-7ddc-9e6b-d25eccfd192d"
+              }
+            }
+          }

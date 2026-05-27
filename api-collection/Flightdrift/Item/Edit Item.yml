@@ -1,0 +1,65 @@
+info:
+  name: Edit Item
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{base_url}}/api/items/{{item_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Book return flights",
+          "description": "Book return flights for launch trip",
+          "startDate": "2026-06-01",
+          "endDate": "2026-06-06"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK
+    request:
+      url: "{{base_url}}/api/items/{{item_id}}"
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+              "name": "Book return flights",
+              "description": "Book return flights for launch trip",
+              "startDate": "2026-06-01",
+              "endDate": "2026-06-06"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+              "success": true,
+              "message": "Item updated successfully",
+              "data": {
+                  "item": {
+                      "id": "019b7a23-58a7-72f0-bdea-b39d8ab32191",
+                      "name": "Book return flights",
+                      "description": "Book return flights for launch trip",
+                      "startDate": "2026-06-01",
+                      "endDate": "2026-06-06",
+                      "projectId": "019b7a23-51cf-7588-8d47-39c93f1d480f"
+                  }
+              }
+          }

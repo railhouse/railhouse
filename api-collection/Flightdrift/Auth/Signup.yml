@@ -8,19 +8,13 @@ http:
   url: "{{base_url}}/api/auth/signup"
   body:
     type: json
-    data: "{\r
-
-      \    \"name\": \"Mostafa Galib\",\r
-
-      \    \"email\": \"galib@gmail.com\",\r
-
-      \    \"username\": \"galib\",\r
-
-      \    \"password\": \"test123\",\r
-
-      \    \"invitationCode\": \"9AZGTV1Z\"\r
-
-      }"
+    data: |-
+      {
+          "name": "Jamius Siam",
+          "email": "jamiussiam@gmail.com",
+          "username": "jamius19",
+          "password": "123"
+      }
 
 settings:
   encodeUrl: true
@@ -35,19 +29,13 @@ examples:
       method: POST
       body:
         type: json
-        data: "{\r
-
-          \    \"name\": \"Jamius Siam\",\r
-
-          \    \"email\": \"ja@sii.am\",\r
-
-          \    \"username\": \"jamius191\",\r
-
-          \    \"password\": \"test123\",\r
-
-          \    \"invitationCode\": \"T9MNCLYZ\"\r
-
-          }"
+        data: |-
+          {
+              "name": "Jamius Siam",
+              "email": "jamiussiam@gmail.com",
+              "username": "jamius19",
+              "password": "123"
+          }
     response:
       status: 201
       statusText: Created
@@ -78,12 +66,12 @@ examples:
         type: json
         data: |-
           {
-              "success": true,
-              "message": "Account created successfully",
-              "data": {
-                  "email": "ja@sii.am",
-                  "username": "jamius191",
-                  "id": 2,
-                  "name": "Jamius Siam"
-              }
+            "success": true,
+            "message": "Account created successfully",
+            "data": {
+              "id": "019e6a79-5e97-7b4d-9f53-b7d0e4a3f96c",
+              "name": "Jamius Siam",
+              "email": "jamiussiam@gmail.com",
+              "username": "jamius19"
+            }
           }
