@@ -1,0 +1,4 @@
+[mcp_servers.flightdrift_openapi]
+command = "C:\\Users\\jamius19\\miniconda3\\envs\\awsmcp\\Scripts\\awslabs.openapi-mcp-server.exe"
+args = ["--spec-url", "http://localhost:8080/v3/api-docs"]
+enabled = true
