@@ -15,10 +15,12 @@
     "*.{json,css,scss,md,yml,yaml,html}": "prettier --write"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-router": "^1.169.2",
     "@tanstack/react-router-devtools": "^1.166.13",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
