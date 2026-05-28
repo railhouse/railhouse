@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button.tsx";
+import Header from "@/components/header/header.tsx";
+import Sidebar from "@/components/header/sidebar.tsx";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -7,10 +8,15 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div>
-      <h3 className="text-4xl">Welcome Home!</h3>
-      <p className="text-muted-text">Test Muted</p>
-      <Button>Click Me</Button>
+    <div className="flex flex-col gap-3.5 p-4 w-full h-screen">
+      <Header />
+      <div className="flex-1 flex gap-3">
+        <Sidebar />
+        <main className="bg-white flex-1 drop-shadow-md drop-shadow-black/2 rounded-lg p-4">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi distinctio dolorum enim
+          error explicabo illum nam nulla odit quisquam quod.
+        </main>
+      </div>
     </div>
   );
 }
