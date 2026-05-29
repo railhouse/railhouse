@@ -17,3 +17,6 @@ Here are some rules for the project:
     9. Don't exceed 120 characters per line, try to keep it to 80.
     10. Don't install NPM packages without explicit permission from the user.
    11. Don't run vite or browser to check the visuals for now.
+   12. Move reused types in the `@types` folder.
+   13. If people usually use a specific library for a specific task, prompt the user if they want to use it. (e.g., form validation with Zod)
+   14. If variables can be moved outside the component, do so.

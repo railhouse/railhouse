@@ -5,28 +5,7 @@
 import { Button } from "@/components/ui/button.tsx";
 import { CalendarClock, Circle, Minimize2, Plus, Signal, Tag } from "lucide-react";
 import type { JSX, ReactNode } from "react";
-
-type BoardItemTag = {
-  name: string;
-};
-
-type BoardItem = {
-  code: string;
-  title: string;
-  assignee: {
-    name: string;
-    avatarUrl: string;
-  };
-  status: string;
-  priority: string;
-  dateRange: string;
-  tags: BoardItemTag[];
-};
-
-export type Board = {
-  title: string;
-  items: BoardItem[];
-};
+import type { Board, BoardItem } from "@/@types/item.ts";
 
 type BoardsProps = {
   boards: Board[];

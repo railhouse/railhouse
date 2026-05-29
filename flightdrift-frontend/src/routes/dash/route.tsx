@@ -2,8 +2,9 @@
  * Author: Jamius Siam
  * Since: 28/05/2026
  */
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import Sidebar from "@/components/sidebar/sidebar.tsx";
+import { useAuthStore } from "@/stores/auth-store.ts";
 import type { JSX } from "react";
 
 const DashboardLayout = (): JSX.Element => {
@@ -18,5 +19,18 @@ const DashboardLayout = (): JSX.Element => {
 };
 
 export const Route = createFileRoute("/dash")({
+  beforeLoad: () => {
+    const authState = useAuthStore.getState();
+
+    if (authState.isAuthenticated()) {
+      return;
+    }
+
+    if (authState.token) {
+      authState.clearAuth();
+    }
+
+    throw redirect({ to: "/auth/signin" });
+  },
   component: DashboardLayout,
 });

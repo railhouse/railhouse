@@ -10,17 +10,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
+import { signout } from "@/lib/auth-api.ts";
+import { useAuthStore } from "@/stores/auth-store.ts";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { LogOut, Settings } from "lucide-react";
 import type { JSX } from "react";
 
+const menuItemClassName =
+  "h-7 cursor-pointer text-[13px] font-normal hover:bg-muted focus:bg-muted " +
+  "focus:text-accent-foreground data-[highlighted]:bg-muted " +
+  "data-[highlighted]:text-accent-foreground";
+
+const destructiveMenuItemClassName =
+  "h-7 cursor-pointer text-[13px] font-normal hover:bg-muted focus:bg-muted " +
+  "data-[highlighted]:bg-muted";
+
 const UserMenu = (): JSX.Element => {
-  const menuItemClassName =
-    "h-7 cursor-pointer text-[13px] font-normal hover:bg-muted focus:bg-muted " +
-    "focus:text-accent-foreground data-[highlighted]:bg-muted " +
-    "data-[highlighted]:text-accent-foreground";
-  const destructiveMenuItemClassName =
-    "h-7 cursor-pointer text-[13px] font-normal hover:bg-muted focus:bg-muted " +
-    "data-[highlighted]:bg-muted";
+  const navigate = useNavigate();
+  const token = useAuthStore((state) => state.token);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  const signoutMutation = useMutation({
+    mutationFn: async () => {
+      if (!token) {
+        return;
+      }
+
+      await signout(token);
+    },
+    onSettled: () => {
+      clearAuth();
+      void navigate({ to: "/auth/signin" });
+    },
+  });
 
   return (
     <DropdownMenu>
@@ -40,9 +63,16 @@ const UserMenu = (): JSX.Element => {
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" className={destructiveMenuItemClassName}>
+        <DropdownMenuItem
+          variant="destructive"
+          className={destructiveMenuItemClassName}
+          disabled={signoutMutation.isPending}
+          onSelect={(event) => {
+            event.preventDefault();
+            signoutMutation.mutate();
+          }}>
           <LogOut size={15} strokeWidth={1.8} />
-          Logout
+          {signoutMutation.isPending ? "Signing out" : "Sign out"}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

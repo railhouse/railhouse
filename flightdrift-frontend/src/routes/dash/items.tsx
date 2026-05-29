@@ -2,11 +2,12 @@
  * Author: Jamius Siam
  * Since: 29/05/2026
  */
-import Boards, { type Board } from "@/components/item/boards.tsx";
-import Breadcrumb from "@/components/item/breadcrumb.tsx";
-import HorizontalRule from "@/components/item/horizontal-rule.tsx";
+import Boards from "@/components/items/boards.tsx";
+import Breadcrumb from "@/components/items/breadcrumb.tsx";
+import HorizontalRule from "@/components/items/horizontal-rule.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import type { JSX } from "react";
+import type { Board } from "@/@types/item.ts";
 
 const boards: Board[] = [
   {
@@ -61,6 +62,6 @@ const Item = (): JSX.Element => {
   );
 };
 
-export const Route = createFileRoute("/dash/item")({
+export const Route = createFileRoute("/dash/items")({
   component: Item,
 });
