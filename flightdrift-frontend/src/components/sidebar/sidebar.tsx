@@ -4,6 +4,7 @@
  */
 import NavMenuItem from "@/components/sidebar/nav-menu-item.tsx";
 import OrganizationSelector from "@/components/sidebar/organization-selector.tsx";
+import UserMenu from "@/components/sidebar/user-menu.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Link } from "@tanstack/react-router";
 import {
@@ -139,14 +140,7 @@ const Sidebar = (): JSX.Element => {
         <div className="h-[0.5px] w-full bg-muted-foreground/20" />
 
         <div className="flex items-center gap-2">
-          <Button type="button" variant="ghost" className={"h-9 flex-1 justify-start gap-2"}>
-            <img
-              src="/avatar.jpg"
-              alt="Jamius Siam"
-              className="size-[18px] rounded-full object-cover"
-            />
-            <span className="truncate text-[13px] font-normal leading-none">Jamius Siam</span>
-          </Button>
+          <UserMenu />
 
           <Button
             type="button"
