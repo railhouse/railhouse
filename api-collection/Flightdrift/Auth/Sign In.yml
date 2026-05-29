@@ -20,7 +20,7 @@ runtime:
       code: |-
         var jsonData = res.getBody();
 
-        bru.set("auth_token", jsonData.data.token);
+        bru.setEnvVar("auth_token", jsonData.data.token);
 
 settings:
   encodeUrl: true
