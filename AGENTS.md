@@ -9,3 +9,6 @@ Check `AGENTS.md` file within each application dir (i.e., `flightdrift-frontend/
 Keep your changes as small as possible and always ask before making a big change.
 
 When you create/modify any endpoint, update the relavant yml file(s) in the `api-collection\Flightdrift` OpenCollection directory.
+
+## Tools
+1. Check if `rg` is available, if so use it, otherwise use `grep`.

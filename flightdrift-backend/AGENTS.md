@@ -10,6 +10,3 @@ This is a Java 25 Spring Boot 4 project for a kanban-inspired project management
 7. Use Lombok and Jakarta persistence annotations where applicable.
 8. Use Lombok's `@Builder` when creating entities.
 9. DB related SQL files can be found under `db/migration`
-
-## Tools
-1. Check if `rg` is available, if so use it, otherwise use `grep`.
