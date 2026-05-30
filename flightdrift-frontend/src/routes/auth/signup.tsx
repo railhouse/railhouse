@@ -37,9 +37,9 @@ const Signup = (): JSX.Element => {
 
       try {
         const response = await signupMutation.mutateAsync({
-          name: value.name.trim(),
-          email: value.email.trim(),
-          username: value.username.trim(),
+          name: value.name,
+          email: value.email,
+          username: value.username,
           password: value.password,
         });
 
@@ -92,7 +92,7 @@ const Signup = (): JSX.Element => {
                     value={field.state.value}
                     aria-invalid={Boolean(error)}
                     onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
+                    onChange={(event) => field.handleChange(event.target.value.trim())}
                   />
                   <FieldError>{error}</FieldError>
                 </Field>
@@ -120,7 +120,7 @@ const Signup = (): JSX.Element => {
                     value={field.state.value}
                     aria-invalid={Boolean(error)}
                     onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
+                    onChange={(event) => field.handleChange(event.target.value.trim())}
                   />
                   <FieldError>{error}</FieldError>
                 </Field>
@@ -147,7 +147,7 @@ const Signup = (): JSX.Element => {
                     value={field.state.value}
                     aria-invalid={Boolean(error)}
                     onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
+                    onChange={(event) => field.handleChange(event.target.value.trim())}
                   />
                   <FieldError>{error}</FieldError>
                 </Field>

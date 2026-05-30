@@ -33,7 +33,7 @@ const Signin = (): JSX.Element => {
     onSubmit: async ({ value }) => {
       try {
         const response = await signinMutation.mutateAsync({
-          username: value.username.trim(),
+          username: value.username,
           password: value.password,
         });
 
@@ -83,7 +83,7 @@ const Signin = (): JSX.Element => {
                     value={field.state.value}
                     aria-invalid={Boolean(error)}
                     onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
+                    onChange={(event) => field.handleChange(event.target.value.trim())}
                   />
                   <FieldError>{error}</FieldError>
                 </Field>
