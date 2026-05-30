@@ -15,7 +15,10 @@ const ErrorAlert = ({ message, show }: ErrorAlertProps): JSX.Element | null => {
   }
 
   return (
-    <p className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive">
+    <p
+      role="alert"
+      aria-live="assertive"
+      className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive">
       {message}
     </p>
   );

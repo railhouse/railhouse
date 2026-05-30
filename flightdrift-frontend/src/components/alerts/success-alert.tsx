@@ -15,7 +15,9 @@ const SuccessAlert = ({ message, show }: SuccessAlertProps): JSX.Element | null 
   }
 
   return (
-    <p className="rounded-md border border-emerald-500/30 bg-emerald-500/5 px-3 py-2 text-xs text-emerald-700">
+    <p role="alert"
+       aria-live="polite"
+       className="rounded-md border border-emerald-500/30 bg-emerald-500/5 px-3 py-2 text-xs text-emerald-700">
       {message}
     </p>
   );
