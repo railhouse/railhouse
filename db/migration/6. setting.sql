@@ -11,3 +11,5 @@ CREATE TABLE setting
     created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE setting OWNER TO flightdrift;

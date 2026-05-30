@@ -13,6 +13,8 @@ CREATE TABLE organization
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE organization OWNER TO flightdrift;
+
 CREATE TABLE account_organization_mapping
 (
     id              UUID PRIMARY KEY DEFAULT uuidv7(),
@@ -23,3 +25,5 @@ CREATE TABLE account_organization_mapping
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE account_organization_mapping OWNER TO flightdrift;

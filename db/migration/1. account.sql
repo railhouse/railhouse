@@ -14,6 +14,7 @@ CREATE TABLE account
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE account OWNER TO flightdrift;
 
 CREATE TABLE blacklisted_auth_token
 (
@@ -23,3 +24,5 @@ CREATE TABLE blacklisted_auth_token
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE blacklisted_auth_token OWNER TO flightdrift;

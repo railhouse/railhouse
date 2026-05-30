@@ -11,3 +11,5 @@ CREATE TABLE flag
     created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE flag OWNER TO flightdrift;

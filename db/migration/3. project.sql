@@ -14,4 +14,6 @@ CREATE TABLE project
     updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE project OWNER TO flightdrift;
+
 CREATE INDEX idx_project_organization_id ON project (organization_id);

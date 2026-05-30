@@ -18,4 +18,6 @@ CREATE TABLE item
     )
 );
 
+ALTER TABLE item OWNER TO flightdrift;
+
 CREATE INDEX idx_item_project_id ON item (project_id);
