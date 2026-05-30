@@ -9,38 +9,64 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashRouteRouteImport } from './routes/dash/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashItemRouteImport } from './routes/dash/item'
 
+const DashRouteRoute = DashRouteRouteImport.update({
+  id: '/dash',
+  path: '/dash',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashItemRoute = DashItemRouteImport.update({
+  id: '/item',
+  path: '/item',
+  getParentRoute: () => DashRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dash': typeof DashRouteRouteWithChildren
+  '/dash/item': typeof DashItemRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dash': typeof DashRouteRouteWithChildren
+  '/dash/item': typeof DashItemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dash': typeof DashRouteRouteWithChildren
+  '/dash/item': typeof DashItemRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/dash' | '/dash/item'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/dash' | '/dash/item'
+  id: '__root__' | '/' | '/dash' | '/dash/item'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashRouteRoute: typeof DashRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dash': {
+      id: '/dash'
+      path: '/dash'
+      fullPath: '/dash'
+      preLoaderRoute: typeof DashRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +74,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dash/item': {
+      id: '/dash/item'
+      path: '/item'
+      fullPath: '/dash/item'
+      preLoaderRoute: typeof DashItemRouteImport
+      parentRoute: typeof DashRouteRoute
+    }
   }
 }
 
+interface DashRouteRouteChildren {
+  DashItemRoute: typeof DashItemRoute
+}
+
+const DashRouteRouteChildren: DashRouteRouteChildren = {
+  DashItemRoute: DashItemRoute,
+}
+
+const DashRouteRouteWithChildren = DashRouteRoute._addFileChildren(
+  DashRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashRouteRoute: DashRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

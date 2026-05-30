@@ -32,7 +32,7 @@ examples:
         data: |-
           {
               "name": "Jamius Siam",
-              "email": "jamiussiam@gmail.com",
+              "email": "jamius@example.com",
               "username": "jamius19",
               "password": "123"
           }
